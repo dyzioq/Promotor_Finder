@@ -1,32 +1,104 @@
-# React + TypeScript + Vite
+# Promotor Finder – System Wyboru Tematów Prac Dyplomowych
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+System wspomagający i automatyzujący proces wyboru tematów prac dyplomowych (inżynierskich i magisterskich), tworzenia grup projektowych oraz generowania Kart Zgłoszenia Pracy Dyplomowej na uczelni.
 
-Currently, two official plugins are available:
+## Stos Technologiczny (Tech Stack)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### **Frontend (Aktualnie rozwijany)**
 
-## React Compiler
+* **Core:** React 18, TypeScript, Vite
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Routing:** React Router v6 (z routingiem dynamicznym)
 
-## Expanding the Oxlint configuration
+* **Stylizowanie:** Tailwind CSS / CSS Modules
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+* **Jakość kodu:** ESLint, TypeScript Compiler (`tsconfig`)
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+### **Backend (Planowany)**
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+* **Core:** Java 21 / Spring Boot 3
+
+* **Baza Danych:** PostgreSQL + Spring Data JPA (Hibernate)
+
+* **Bezpieczeństwo & Auth:** Spring Security (OAuth2 / SSO w domenie `@polsl.pl`)
+
+* **Obsługa Plików:** Apache POI (import/eksport Excel), OpenPDF/iText (generowanie Kart PDF)
+
+* **Harmonogram & E-mail:** Spring Task Scheduler (`@Scheduled`), Spring Mail
+
+## Uruchomienie Projektu Lokalnie
+
+### Wymagania wstępne
+
+* **Node.js** (wersja `>= 18.x`)
+
+* **npm** (wersja `>= 9.x`)
+
+### Krok po kroku
+
+1. **Sklonuj repozytorium:**
+
+   ```
+   git clone <URL_REPOZYTORIUM>
+   cd Promotor_Finder
+   
+   ```
+
+2. **Zainstaluj zależności:**
+
+   ```
+   npm install
+   
+   ```
+
+3. **Uruchom serwer deweloperski (Vite):**
+
+   ```
+   npm run dev
+   
+   ```
+
+   Aplikacja będzie dostępna pod adresem: `http://localhost:5173/student`
+
+4. **Budowanie wersji produkcyjnej:**
+
+   ```
+   npm run build
+   
+   ```
+
+## Mapowanie Etapów i Ról w Systemie
+
+System docelowo obsługuje 3 główne role użytkowników:
+
+1. **Student:**
+
+   * Dobieranie się w grupy projektowe (Inż. INF / IDiSI).
+
+   * Wybór tematów indywidualnych lub grupowych (z uwzględnieniem rankingu średnich ocen).
+
+   * Wysyłanie prośby o dodanie slotu/zwiększenie limitu.
+
+   * Generowanie i podgląd Karty Zgłoszenia Pracy.
+
+2. **Promotor:**
+
+   * Zarządzanie limitami prac na dany kierunek/stopień.
+
+   * Modyfikacja tematów, ustawianie rezerwacji oraz propozycji promotorów pomocniczych.
+
+   * Zatwierdzanie grup i Kart Zgłoszeń.
+
+3. **Administrator / Kierownik Katedry:**
+
+   * Zarządzanie harmonogramem etapów (okna czasowe wyboru).
+
+   * Import/Eksport danych z plików Excel.
+
+   * Akceptacja/odrzucanie tematów przez Kierownika Katedry (Etap 1.5).
+
+   * Automatyczna i ręczna wysyłka powiadomień e-mail.
+
+## Licencja
+
+Projekt realizowany na potrzeby Matematyki Stosowanej Politechniki Śląskiej.
