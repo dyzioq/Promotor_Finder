@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 // import AdminPanel from "./features/admin/AdminPanel";
 import StudentPanel from "./features/student/StudentPanel";
 // import PromotorPanel from "./features/promotor/PromotorPanel";
+import PromoterTopics from "./features/student/PromoterTopics";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
             {/* <Route path="admin" element={<AdminPanel />} /> */}
              <Route path="student" element={<StudentPanel />} />
             {/* <Route path="promotor" element={<PromotorPanel />} /> */}
+             <Route path="student/promotor/:promoterId" element={<PromoterTopics />} />
           </Route>
         </Routes>
       </BrowserRouter>
