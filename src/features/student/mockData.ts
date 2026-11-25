@@ -74,3 +74,36 @@ export const MOCK_TOPICS: Topic[] = [
         degreeType: "inż",
     },
 ];
+export interface GroupMember {
+    id: number;
+    name: string;
+    email: string;
+    gpa: number; // Średnia ocen do konkursu (punkt 4h, 4m)
+    isLeader: boolean;
+    status: "confirmed" | "pending"; // Zabezpieczenie przed żartownisiami (punkt 4j)
+}
+
+export interface ProjectGroup {
+    id: string;
+    name: string;
+    inviteCode: string;
+    isLocked: boolean; // Zakończone tworzenie grupy (punkt 4j)
+    members: GroupMember[];
+}
+
+// Symulacja aktualnie zalogowanego studenta
+export const CURRENT_STUDENT: GroupMember = {
+    id: 1001,
+    name: "Paweł Nowak",
+    email: "pawel.nowak@polsl.pl",
+    gpa: 4.5,
+    isLeader: true,
+    status: "confirmed",
+};
+
+// Symulacja bazy innych studentów, których można zaprosić do grupy
+export const AVAILABLE_STUDENTS: Omit<GroupMember, "isLeader" | "status">[] = [
+    { id: 1002, name: "Marek Zając", email: "marek.zajac@polsl.pl", gpa: 4.2 },
+    { id: 1003, name: "Katarzyna Wójcik", email: "k.wojcik@polsl.pl", gpa: 4.8 },
+    { id: 1004, name: "Tomasz Lewandowski", email: "t.lewandowski@polsl.pl", gpa: 3.9 },
+];
