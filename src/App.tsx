@@ -4,13 +4,13 @@ import StudentLayout from "./features/student/StudentLayout";
 import StudentPanel from "./features/student/StudentPanel";
 import PromoterTopics from "./features/student/PromoterTopics";
 import StudentGroup from "./features/student/StudentGroup";
+import StudentApplicationCard from "./features/student/StudentApplicationCard";
 import PromotorLayout from "./features/promotor/PromotorLayout";
 
 export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Główny pasek na samej górze */}
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Navigate to="/student" replace />} />
 
@@ -19,7 +19,7 @@ export default function App() {
                         <Route index element={<StudentPanel />} />
                         <Route path="promotor/:promoterId" element={<PromoterTopics />} />
                         <Route path="group" element={<StudentGroup />} />
-                        <Route path="application" element={<div style={{ padding: "20px" }}>Widok Karty Zgłoszenia (w budowie)</div>} />
+                        <Route path="application" element={<StudentApplicationCard />} />
                     </Route>
 
                     {/* Ścieżki i układ Promotora */}

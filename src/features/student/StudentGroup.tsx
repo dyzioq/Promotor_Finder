@@ -1,29 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CURRENT_STUDENT, AVAILABLE_STUDENTS, type ProjectGroup, type GroupMember } from "./mockData";
+import { CURRENT_STUDENT, AVAILABLE_STUDENTS, type GroupMember } from "./mockData";
+import { useStudent } from "./StudentContext";
 
 export default function StudentGroup() {
     const navigate = useNavigate();
 
     // Stan grupy (null = student nie ma jeszcze grupy)
-    const [group, setGroup] = useState<ProjectGroup | null>({
-        id: "GRP-1",
-        name: "Zespół Inżynierski Alpha",
-        inviteCode: "POLSL-849",
-        isLocked: false,
-        members: [
-            CURRENT_STUDENT,
-            {
-                id: 1002,
-                name: "Marek Zając",
-                email: "marek.zajac@polsl.pl",
-                gpa: 4.2,
-                isLeader: false,
-                status: "pending",
-            },
-        ],
-    });
-
+    const { group, setGroup } = useStudent();
     const [newGroupName, setNewGroupName] = useState("");
     const [joinCode, setJoinCode] = useState("");
     const [selectedStudentId, setSelectedStudentId] = useState<number>(AVAILABLE_STUDENTS[1].id);

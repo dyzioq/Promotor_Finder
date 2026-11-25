@@ -13,9 +13,13 @@ export interface Topic {
     title: string;
     isGroup: boolean;
     groupLimit: string;
+    minMembers: number;
+    maxMembers: number;
     description: string;
     isReserved: boolean;
-    degreeType: "inż" | "mgr"; // Stopień studiów
+    reservedForEmail?: string; // Jeśli temat jest zarezerwowany dla konkretnego studenta
+    applicantsCount: number;   // Ilu studentów/grup już wybrało ten temat
+    degreeType: "inż" | "mgr";
 }
 
 export const MOCK_PROMOTERS: Promoter[] = [
@@ -49,8 +53,11 @@ export const MOCK_TOPICS: Topic[] = [
         title: "System obsługi wyboru prac dyplomowych",
         isGroup: true,
         groupLimit: "2-4 osoby",
+        minMembers: 2,
+        maxMembers: 4,
         description: "Stworzenie aplikacji webowej do zarządzania procesem dyplomowania.",
         isReserved: false,
+        applicantsCount: 1,
         degreeType: "inż",
     },
     {
@@ -59,8 +66,11 @@ export const MOCK_TOPICS: Topic[] = [
         title: "Analiza wydajności mikrousług w środowisku Kubernetes",
         isGroup: false,
         groupLimit: "1 osoba",
-        description: "Badanie czasów odpowiedzi i zużycia zasobów przy wysoki obciążeniu.",
+        minMembers: 1,
+        maxMembers: 1,
+        description: "Badanie czasów odpowiedzi i zużycia zasobów przy wysokim obciążeniu.",
         isReserved: false,
+        applicantsCount: 0,
         degreeType: "mgr",
     },
     {
@@ -69,8 +79,12 @@ export const MOCK_TOPICS: Topic[] = [
         title: "Algorytmy optymalizacji w logistyce miejskiej",
         isGroup: false,
         groupLimit: "1 osoba",
+        minMembers: 1,
+        maxMembers: 1,
         description: "Implementacja i porównanie wybranych algorytmów heurystycznych.",
         isReserved: true,
+        reservedForEmail: "pawel.nowak@polsl.pl", // Zarezerwowany dla CURRENT_STUDENT
+        applicantsCount: 0,
         degreeType: "inż",
     },
 ];
