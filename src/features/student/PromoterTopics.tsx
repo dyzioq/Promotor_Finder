@@ -25,14 +25,18 @@ export default function PromoterTopics() {
 
     if (!promoter) {
         return (
-            <div style={{ padding: "20px" }}>
-                <h2>Nie znaleziono takiego promotora.</h2>
-                <button onClick={() => navigate("/student")}>← Powrót do listy</button>
+            <div className="bg-white rounded-xl border border-slate-200 p-8 text-center space-y-4">
+                <h2 className="text-xl font-bold text-slate-900">Nie znaleziono takiego promotora</h2>
+                <button
+                    onClick={() => navigate("/student")}
+                    className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 cursor-pointer"
+                >
+                    ← Powrót do listy promotorów
+                </button>
             </div>
         );
     }
 
-    // Walidacja możliwości zapisu na dany temat
     const getEnrollmentStatus = (topic: Topic): { canEnroll: boolean; reason?: string } => {
         const isReservedForMe = topic.isReserved && topic.reservedForEmail === CURRENT_STUDENT.email;
 
@@ -94,44 +98,28 @@ export default function PromoterTopics() {
     const promoterRequests = requests.filter((r) => r.promoterId === promoter.id);
 
     return (
-        <div style={{ padding: "20px", maxWidth: "900px", margin: "0 auto" }}>
+        <div className="space-y-6">
             <button
                 onClick={() => navigate("/student")}
-                style={{
-                    marginBottom: "20px",
-                    padding: "8px 14px",
-                    cursor: "pointer",
-                    background: "none",
-                    border: "1px solid #ccc",
-                    borderRadius: "5px",
-                }}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors cursor-pointer"
             >
                 ← Powrót do listy promotorów
             </button>
 
             {/* Nagłówek promotora */}
-            <header
-                style={{
-                    padding: "20px",
-                    backgroundColor: "#f8f9fa",
-                    borderRadius: "8px",
-                    marginBottom: "25px",
-                    borderLeft: "5px solid #0056b3",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: "15px",
-                }}
-            >
+            <header className="bg-white rounded-xl border border-slate-200 border-l-4 border-l-blue-600 p-6 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h1 style={{ margin: "0 0 5px 0" }}>
-                        {promoter.degree} {promoter.name}
-                    </h1>
-                    <p style={{ margin: "0", color: "#555" }}>{promoter.department}</p>
-                    <p style={{ margin: "5px 0 0 0", color: "#0056b3", fontWeight: "bold" }}>
-                        Widok tematów: {studentDegree === "inż" ? "Inżynierskie (I st.)" : "Magisterskie (II st.)"}
+                    <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+                        {promoter.degree}
                     </p>
+                    <h1 className="text-2xl font-bold text-slate-900 mt-0.5">{promoter.name}</h1>
+                    <p className="text-sm text-slate-600 mt-1">{promoter.department}</p>
+                    <div className="flex flex-wrap items-center gap-3 mt-3 text-xs">
+                        <span className="text-slate-500">📧 {promoter.email}</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-medium">
+              Studia: {studentDegree === "inż" ? "Inżynierskie (I st.)" : "Magisterskie (II st.)"}
+            </span>
+                    </div>
                 </div>
 
                 <button
@@ -139,15 +127,7 @@ export default function PromoterTopics() {
                         setRequestFormTopicId("new");
                         setRequestType("new_topic_slot");
                     }}
-                    style={{
-                        padding: "10px 15px",
-                        backgroundColor: "#fff",
-                        border: "1px solid #0056b3",
-                        color: "#0056b3",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        fontWeight: "bold",
-                    }}
+                    className="self-start md:self-center px-4 py-2.5 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-50 text-sm font-medium transition-colors cursor-pointer"
                 >
                     ✉️ Zaproponuj własny temat / poproś o slot
                 </button>
@@ -157,41 +137,30 @@ export default function PromoterTopics() {
             {requestFormTopicId === "new" && (
                 <form
                     onSubmit={handleSendRequest}
-                    style={{
-                        padding: "20px",
-                        backgroundColor: "#eef6ff",
-                        border: "1px solid #b8daff",
-                        borderRadius: "8px",
-                        marginBottom: "25px",
-                    }}
+                    className="bg-blue-50/70 border border-blue-200 rounded-xl p-5 space-y-3"
                 >
-                    <h3 style={{ marginTop: 0 }}>Prośba o zwiększenie limitu prac i propozycja tematu</h3>
+                    <h3 className="text-base font-bold text-slate-900">
+                        Prośba o zwiększenie limitu prac i propozycja tematu
+                    </h3>
                     <textarea
                         rows={4}
                         placeholder="Opisz proponowany temat pracy oraz skład zespołu..."
                         value={requestMessage}
                         onChange={(e) => setRequestMessage(e.target.value)}
-                        style={{ width: "100%", padding: "10px", boxSizing: "border-box", marginBottom: "10px" }}
+                        className="w-full p-3 rounded-lg border border-blue-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                     />
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <div className="flex gap-2">
                         <button
                             type="submit"
-                            style={{
-                                padding: "8px 16px",
-                                backgroundColor: "#0056b3",
-                                color: "#fff",
-                                border: "none",
-                                borderRadius: "5px",
-                                cursor: "pointer",
-                            }}
+                            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium cursor-pointer"
                         >
                             Wyślij wiadomość
                         </button>
                         <button
                             type="button"
                             onClick={() => setRequestFormTopicId(null)}
-                            style={{ padding: "8px 16px", cursor: "pointer" }}
+                            className="px-4 py-2 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-medium cursor-pointer"
                         >
                             Anuluj
                         </button>
@@ -199,9 +168,10 @@ export default function PromoterTopics() {
                 </form>
             )}
 
-            <h2>Dostępne tematy ({topics.length})</h2>
+            {/* Lista tematów */}
+            <div className="space-y-4">
+                <h2 className="text-lg font-bold text-slate-900">Dostępne tematy ({topics.length})</h2>
 
-            <div style={{ display: "grid", gap: "20px", marginTop: "15px" }}>
                 {topics.map((topic) => {
                     const isSelectedByMe = selectedTopicId === topic.id;
                     const isReservedForMe =
@@ -212,83 +182,61 @@ export default function PromoterTopics() {
                     return (
                         <div
                             key={topic.id}
-                            style={{
-                                border: isSelectedByMe ? "2px solid #28a745" : "1px solid #ddd",
-                                padding: "20px",
-                                borderRadius: "8px",
-                                backgroundColor: isSelectedByMe ? "#f3fbf5" : "#fff",
-                            }}
+                            className={`rounded-xl p-6 transition-all shadow-xs ${
+                                isSelectedByMe
+                                    ? "bg-emerald-50/40 border-2 border-emerald-500"
+                                    : "bg-white border border-slate-200"
+                            }`}
                         >
-                            <div style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-                                <h3 style={{ margin: "0 0 8px 0" }}>{topic.title}</h3>
-                                {isSelectedByMe && (
-                                    <span style={{ color: "#28a745", fontWeight: "bold", whiteSpace: "nowrap" }}>
-                    ✅ Twój wybór
+                            <div className="flex flex-wrap items-start justify-between gap-3">
+                                <h3 className="text-lg font-bold text-slate-900">{topic.title}</h3>
+                                <div className="flex items-center gap-2">
+                                    {isSelectedByMe && (
+                                        <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">
+                      ✅ Twój wybór
+                    </span>
+                                    )}
+                                    {isReservedForMe && !isSelectedByMe && (
+                                        <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                      ⭐ Zarezerwowany dla Ciebie
+                    </span>
+                                    )}
+                                    <span className="px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium">
+                    {topic.isGroup ? `👥 Grupowa (${topic.groupLimit})` : "👤 Indywidualna"}
                   </span>
-                                )}
-                                {isReservedForMe && !isSelectedByMe && (
-                                    <span style={{ color: "#0056b3", fontWeight: "bold", whiteSpace: "nowrap" }}>
-                    ⭐ Zarezerwowany dla Ciebie
-                  </span>
-                                )}
+                                </div>
                             </div>
 
-                            <p style={{ color: "#444" }}>{topic.description}</p>
+                            <p className="text-sm text-slate-600 mt-2.5 leading-relaxed">{topic.description}</p>
 
-                            <div
-                                style={{
-                                    display: "flex",
-                                    gap: "20px",
-                                    fontSize: "14px",
-                                    color: "#666",
-                                    marginBottom: "12px",
-                                    flexWrap: "wrap",
-                                }}
-                            >
+                            <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-500">
                 <span>
-                  👥 Formuła:{" "}
-                    <strong>{topic.isGroup ? `Grupowa (${topic.groupLimit})` : "Indywidualna"}</strong>
-                </span>
-                                <span>
-                  📊 Liczba chętnych: <strong>{totalApplicants}</strong>
-                                    {totalApplicants > 1 && " (konkurs średnich)"}
+                  📊 Liczba chętnych: <strong className="text-slate-800">{totalApplicants}</strong>
+                    {totalApplicants > 1 && (
+                        <span className="ml-1.5 text-amber-700 font-medium">(konkurs średnich)</span>
+                    )}
                 </span>
                             </div>
 
                             {!canEnroll && reason && (
-                                <p style={{ color: "#b71c1c", fontSize: "13px", margin: "8px 0" }}>
-                                    ⚠️ {reason}{" "}
+                                <div className="mt-4 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-xs flex flex-wrap items-center gap-2">
+                                    <span>⚠️ {reason}</span>
                                     {topic.isGroup && (
                                         <button
                                             onClick={() => navigate("/student/group")}
-                                            style={{
-                                                background: "none",
-                                                border: "none",
-                                                color: "#0056b3",
-                                                textDecoration: "underline",
-                                                cursor: "pointer",
-                                                padding: 0,
-                                            }}
+                                            className="font-semibold text-blue-700 underline hover:text-blue-900 cursor-pointer"
                                         >
-                                            Przejdź do grupy
+                                            Przejdź do grupy →
                                         </button>
                                     )}
-                                </p>
+                                </div>
                             )}
 
-                            {/* Przyciski akcji */}
-                            <div style={{ display: "flex", gap: "10px", marginTop: "12px", flexWrap: "wrap" }}>
+                            <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-2.5">
                                 {isSelectedByMe ? (
                                     <button
                                         onClick={cancelTopicSelection}
-                                        style={{
-                                            padding: "8px 16px",
-                                            backgroundColor: "#dc3545",
-                                            color: "#fff",
-                                            border: "none",
-                                            borderRadius: "5px",
-                                            cursor: "pointer",
-                                        }}
+                                        className="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium transition-colors cursor-pointer"
                                     >
                                         Zrezygnuj z tematu
                                     </button>
@@ -296,15 +244,11 @@ export default function PromoterTopics() {
                                     <button
                                         disabled={!canEnroll}
                                         onClick={() => handleEnroll(topic)}
-                                        style={{
-                                            padding: "8px 16px",
-                                            backgroundColor: canEnroll ? "#0056b3" : "#ccc",
-                                            color: "#fff",
-                                            border: "none",
-                                            borderRadius: "5px",
-                                            cursor: canEnroll ? "pointer" : "not-allowed",
-                                            fontWeight: "bold",
-                                        }}
+                                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            canEnroll
+                                                ? "bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                                                : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                                        }`}
                                     >
                                         {topic.isGroup ? "Zapisz grupę na ten temat" : "Wybierz ten temat"}
                                     </button>
@@ -316,13 +260,7 @@ export default function PromoterTopics() {
                                             setRequestFormTopicId(topic.id);
                                             setRequestType("increase_group_limit");
                                         }}
-                                        style={{
-                                            padding: "8px 14px",
-                                            backgroundColor: "#f0f0f0",
-                                            border: "1px solid #ccc",
-                                            borderRadius: "5px",
-                                            cursor: "pointer",
-                                        }}
+                                        className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium transition-colors cursor-pointer"
                                     >
                                         ✉️ Zapytaj o zmianę limitu / pisanie solo
                                     </button>
@@ -333,25 +271,23 @@ export default function PromoterTopics() {
                             {requestFormTopicId === topic.id && (
                                 <form
                                     onSubmit={handleSendRequest}
-                                    style={{
-                                        marginTop: "15px",
-                                        padding: "15px",
-                                        backgroundColor: "#f8f9fa",
-                                        border: "1px solid #ddd",
-                                        borderRadius: "6px",
-                                    }}
+                                    className="mt-4 p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-3"
                                 >
-                                    <div style={{ marginBottom: "10px" }}>
-                                        <label style={{ fontSize: "14px", fontWeight: "bold", display: "block" }}>
-                                            Rodzaj prośby:
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                                            Rodzaj prośby
                                         </label>
                                         <select
                                             value={requestType}
                                             onChange={(e) => setRequestType(e.target.value as PromoterRequest["type"])}
-                                            style={{ padding: "6px", marginTop: "4px", width: "100%" }}
+                                            className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm"
                                         >
-                                            <option value="increase_group_limit">Prośba o zwiększenie limitu osób w grupie</option>
-                                            <option value="solo_permission">Prośba o zgodę na realizację projektu solo</option>
+                                            <option value="increase_group_limit">
+                                                Prośba o zwiększenie limitu osób w grupie
+                                            </option>
+                                            <option value="solo_permission">
+                                                Prośba o zgodę na realizację projektu solo
+                                            </option>
                                         </select>
                                     </div>
                                     <textarea
@@ -359,27 +295,20 @@ export default function PromoterTopics() {
                                         placeholder="Wpisz uzasadnienie dla promotora..."
                                         value={requestMessage}
                                         onChange={(e) => setRequestMessage(e.target.value)}
-                                        style={{ width: "100%", padding: "8px", boxSizing: "border-box", marginBottom: "8px" }}
+                                        className="w-full p-3 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                     />
-                                    <div style={{ display: "flex", gap: "8px" }}>
+                                    <div className="flex gap-2">
                                         <button
                                             type="submit"
-                                            style={{
-                                                padding: "6px 14px",
-                                                backgroundColor: "#0056b3",
-                                                color: "#fff",
-                                                border: "none",
-                                                borderRadius: "4px",
-                                                cursor: "pointer",
-                                            }}
+                                            className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium cursor-pointer"
                                         >
                                             Wyślij
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setRequestFormTopicId(null)}
-                                            style={{ padding: "6px 14px", cursor: "pointer" }}
+                                            className="px-3.5 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 text-sm cursor-pointer"
                                         >
                                             Anuluj
                                         </button>
@@ -391,21 +320,22 @@ export default function PromoterTopics() {
                 })}
 
                 {topics.length === 0 && (
-                    <p style={{ color: "#777" }}>
+                    <div className="bg-white rounded-xl border border-dashed border-slate-300 p-10 text-center text-sm text-slate-500">
                         Ten promotor nie zgłosił żadnych tematów dla studiów{" "}
                         {studentDegree === "inż" ? "inżynierskich" : "magisterskich"}.
-                    </p>
+                    </div>
                 )}
             </div>
 
-            {/* Historia wysłanych próśb do tego promotora */}
+            {/* Historia wysłanych próśb */}
             {promoterRequests.length > 0 && (
-                <section style={{ marginTop: "30px" }}>
-                    <h3>Wysłane prośby do tego promotora</h3>
-                    <ul style={{ paddingLeft: "20px" }}>
+                <section className="bg-white rounded-xl border border-slate-200 p-5 space-y-3">
+                    <h3 className="text-sm font-bold text-slate-900">Wysłane prośby do tego promotora</h3>
+                    <ul className="divide-y divide-slate-100 text-sm">
                         {promoterRequests.map((req) => (
-                            <li key={req.id} style={{ marginBottom: "8px", fontSize: "14px" }}>
-                                <strong>[{req.createdAt}]</strong> {req.message}
+                            <li key={req.id} className="py-2.5 flex gap-3">
+                                <span className="text-xs font-mono text-slate-400 shrink-0">{req.createdAt}</span>
+                                <span className="text-slate-700">{req.message}</span>
                             </li>
                         ))}
                     </ul>

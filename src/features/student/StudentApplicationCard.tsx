@@ -12,7 +12,6 @@ export default function StudentApplicationCard() {
     const selectedTopic = MOCK_TOPICS.find((t) => t.id === selectedTopicId);
     const promoter = MOCK_PROMOTERS.find((p) => p.id === selectedTopic?.promoterId);
 
-    // Stany formularza karty zgłoszenia
     const [status, setStatus] = useState<CardStatus>("draft");
     const [titlePl, setTitlePl] = useState(selectedTopic?.title ?? "");
     const [titleEn, setTitleEn] = useState("");
@@ -21,40 +20,21 @@ export default function StudentApplicationCard() {
     const [scope, setScope] = useState(selectedTopic?.description ?? "");
     const [keywords, setKeywords] = useState("");
 
-    // Jeśli student nie wybrał jeszcze tematu
     if (!selectedTopic || !promoter) {
         return (
-            <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-                <h1>📄 Karta Zgłoszenia Pracy Dyplomowej</h1>
-                <div
-                    style={{
-                        padding: "25px",
-                        backgroundColor: "#fff3cd",
-                        border: "1px solid #ffeeba",
-                        borderRadius: "8px",
-                        marginTop: "20px",
-                    }}
+            <div className="max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-8 text-center space-y-4 shadow-xs">
+                <div className="text-4xl">📄</div>
+                <h1 className="text-xl font-bold text-slate-900">Brak przypisanego tematu</h1>
+                <p className="text-sm text-slate-500">
+                    Aby wypełnić kartę zgłoszenia pracy dyplomowej, wybierz najpierw temat u jednego z
+                    promotorów.
+                </p>
+                <button
+                    onClick={() => navigate("/student")}
+                    className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium cursor-pointer"
                 >
-                    <h3 style={{ marginTop: 0 }}>Brak przypisanego tematu</h3>
-                    <p>
-                        Aby wypełnić kartę zgłoszenia, musisz najpierw wybrać temat pracy dyplomowej u jednego z
-                        promotorów.
-                    </p>
-                    <button
-                        onClick={() => navigate("/student")}
-                        style={{
-                            padding: "10px 16px",
-                            backgroundColor: "#0056b3",
-                            color: "#fff",
-                            border: "none",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            fontWeight: "bold",
-                        }}
-                    >
-                        Przejdź do wyboru promotora ➔
-                    </button>
-                </div>
+                    Przejdź do wyboru promotora →
+                </button>
             </div>
         );
     }
@@ -71,84 +51,48 @@ export default function StudentApplicationCard() {
         setStatus("pending_approval");
     };
 
-    const handlePrintPdf = () => {
-        window.print();
-    };
+    const inputClass =
+        "w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-slate-50 disabled:text-slate-700 disabled:border-slate-200";
 
     return (
-        <div style={{ padding: "20px", maxWidth: "900px", margin: "0 auto" }}>
-            {/* Style ukrywające przyciski podczas drukowania / zapisu do PDF */}
+        <div className="max-w-4xl mx-auto space-y-6">
             <style>{`
         @media print {
-          .no-print { display: none !important; }
           header, nav { display: none !important; }
         }
       `}</style>
 
-            {/* Pasek statusu (ukrywany przy druku PDF) */}
+            {/* Pasek statusu (ukryty na wydruku PDF) */}
             <div
-                className="no-print"
-                style={{
-                    padding: "15px 20px",
-                    borderRadius: "8px",
-                    marginBottom: "20px",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: "10px",
-                    backgroundColor:
-                        status === "approved"
-                            ? "#e8f5e9"
-                            : status === "pending_approval"
-                                ? "#e3f2fd"
-                                : "#f8f9fa",
-                    border:
-                        status === "approved"
-                            ? "1px solid #c3e6cb"
-                            : status === "pending_approval"
-                                ? "1px solid #b8daff"
-                                : "1px solid #ddd",
-                }}
+                className={`print:hidden rounded-xl p-4 border flex flex-wrap items-center justify-between gap-3 ${
+                    status === "approved"
+                        ? "bg-emerald-50 border-emerald-200 text-emerald-900"
+                        : status === "pending_approval"
+                            ? "bg-blue-50 border-blue-200 text-blue-900"
+                            : "bg-white border-slate-200 text-slate-800"
+                }`}
             >
-                <div>
-                    <strong>Status karty: </strong>
+                <div className="text-sm">
+                    <span className="font-semibold">Status karty: </span>
                     {status === "draft" && "✏️ Wersja robocza (uzupełnij w porozumieniu z promotorem)"}
                     {status === "pending_approval" && "⏳ Oczekuje na zatwierdzenie przez promotora"}
-                    {status === "approved" && "✅ Zatwierdzona przez promotora – gotowa do wygenerowania PDF"}
+                    {status === "approved" && "✅ Zatwierdzona przez promotora – gotowa do zapisu PDF"}
                 </div>
 
-                {/* Przyciski deweloperskie do symulacji decyzji promotora */}
-                <div style={{ display: "flex", gap: "8px" }}>
+                <div className="flex flex-wrap gap-2">
                     {status === "pending_approval" && (
                         <>
                             <button
                                 type="button"
                                 onClick={() => setStatus("approved")}
-                                style={{
-                                    padding: "6px 12px",
-                                    backgroundColor: "#28a745",
-                                    color: "#fff",
-                                    border: "none",
-                                    borderRadius: "4px",
-                                    cursor: "pointer",
-                                    fontSize: "13px",
-                                }}
+                                className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium cursor-pointer"
                             >
                                 [Demo] Zatwierdź jako promotor
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setStatus("draft")}
-                                style={{
-                                    padding: "6px 12px",
-                                    backgroundColor: "#ffc107",
-                                    color: "#000",
-                                    border: "none",
-                                    borderRadius: "4px",
-                                    cursor: "pointer",
-                                    fontSize: "13px",
-                                }}
+                                className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-500 text-slate-900 text-xs font-medium cursor-pointer"
                             >
                                 [Demo] Zwróć do poprawy
                             </button>
@@ -157,86 +101,71 @@ export default function StudentApplicationCard() {
                     {status === "approved" && (
                         <button
                             type="button"
-                            onClick={handlePrintPdf}
-                            style={{
-                                padding: "8px 16px",
-                                backgroundColor: "#0056b3",
-                                color: "#fff",
-                                border: "none",
-                                borderRadius: "5px",
-                                cursor: "pointer",
-                                fontWeight: "bold",
-                            }}
+                            onClick={() => window.print()}
+                            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold cursor-pointer"
                         >
-                            🖨️ Generuj / Zapisz kartę jako PDF
+                            🖨️ Generuj / Zapisz PDF
                         </button>
                     )}
                 </div>
             </div>
 
-            {/* Właściwa Karta Zgłoszenia */}
+            {/* Dokument Karty Zgłoszenia */}
             <form
                 onSubmit={handleSubmitForApproval}
-                style={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #ccc",
-                    borderRadius: "8px",
-                    padding: "30px",
-                    boxShadow: "0 2px 6px rgba(0,0,0,0.04)",
-                }}
+                className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-xs print:shadow-none print:border-none print:p-0 space-y-6"
             >
-                <div style={{ textAlign: "center", marginBottom: "25px", borderBottom: "2px solid #333", paddingBottom: "15px" }}>
-                    <h2 style={{ margin: "0 0 5px 0", textTransform: "uppercase" }}>
+                <div className="text-center pb-5 border-b-2 border-slate-900">
+                    <h2 className="text-xl font-bold uppercase tracking-wide text-slate-900">
                         Karta Zgłoszenia Pracy Dyplomowej
                     </h2>
-                    <p style={{ margin: 0, color: "#555" }}>
+                    <p className="text-sm text-slate-600 mt-1">
                         Politechnika Śląska – Stopień:{" "}
-                        <strong>
+                        <strong className="text-slate-900">
                             {selectedTopic.degreeType === "inż" ? "I (Inżynierska)" : "II (Magisterska)"}
                         </strong>
                     </p>
                 </div>
 
-                {/* Sekcja 1: Dane automatyczne (Promotor i Dyplomanci) */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "25px" }}>
-                    <div style={{ padding: "12px", backgroundColor: "#f9f9f9", borderRadius: "6px" }}>
-                        <h4 style={{ margin: "0 0 8px 0" }}>Promotor</h4>
-                        <p style={{ margin: "0 0 4px 0" }}>
-                            <strong>
-                                {promoter.degree} {promoter.name}
-                            </strong>
+                {/* Promotor i dyplomanci */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                            Promotor
+                        </h4>
+                        <p className="font-bold text-slate-900">
+                            {promoter.degree} {promoter.name}
                         </p>
-                        <p style={{ margin: "0 0 4px 0", fontSize: "14px", color: "#555" }}>
-                            {promoter.department}
-                        </p>
-                        <p style={{ margin: 0, fontSize: "13px", color: "#777" }}>{promoter.email}</p>
+                        <p className="text-sm text-slate-600 mt-0.5">{promoter.department}</p>
+                        <p className="text-xs text-slate-500 mt-1">{promoter.email}</p>
                     </div>
 
-                    <div style={{ padding: "12px", backgroundColor: "#f9f9f9", borderRadius: "6px" }}>
-                        <h4 style={{ margin: "0 0 8px 0" }}>
+                    <div className="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
                             {authors.length > 1 ? `Dyplomanci (${group?.name})` : "Dyplomant"}
                         </h4>
-                        <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "14px" }}>
+                        <ul className="space-y-1 text-sm text-slate-800">
                             {authors.map((student) => (
-                                <li key={student.id} style={{ marginBottom: "4px" }}>
-                                    <strong>{student.name}</strong> ({student.email})
+                                <li key={student.id}>
+                                    <span className="font-semibold">{student.name}</span>{" "}
+                                    <span className="text-xs text-slate-500">({student.email})</span>
                                 </li>
                             ))}
                         </ul>
                     </div>
                 </div>
 
-                {/* Sekcja 2: Kierunek i forma studiów */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", marginBottom: "20px" }}>
+                {/* Kierunek i forma */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
-                            Kierunek studiów:
+                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Kierunek studiów
                         </label>
                         <select
                             disabled={!isEditable}
                             value={studyField}
                             onChange={(e) => setStudyField(e.target.value)}
-                            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+                            className={inputClass}
                         >
                             <option value="Informatyka">Informatyka</option>
                             <option value="IDiSI">Inżynieria Danych i Systemów Informacyjnych (IDiSI)</option>
@@ -245,14 +174,14 @@ export default function StudentApplicationCard() {
                     </div>
 
                     <div>
-                        <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
-                            Forma studiów:
+                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Forma studiów
                         </label>
                         <select
                             disabled={!isEditable}
                             value={studyMode}
                             onChange={(e) => setStudyMode(e.target.value as "stacjonarne" | "niestacjonarne")}
-                            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+                            className={inputClass}
                         >
                             <option value="stacjonarne">Stacjonarne</option>
                             <option value="niestacjonarne">Niestacjonarne</option>
@@ -260,104 +189,89 @@ export default function StudentApplicationCard() {
                     </div>
                 </div>
 
-                {/* Sekcja 3: Tytuły i zakres pracy */}
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
-                        Temat pracy (w języku polskim):
-                    </label>
-                    <input
-                        type="text"
-                        disabled={!isEditable}
-                        value={titlePl}
-                        onChange={(e) => setTitlePl(e.target.value)}
-                        style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
-                        required
-                    />
+                {/* Tytuły i zakres */}
+                <div className="space-y-4">
+                    <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Temat pracy (w języku polskim)
+                        </label>
+                        <input
+                            type="text"
+                            disabled={!isEditable}
+                            value={titlePl}
+                            onChange={(e) => setTitlePl(e.target.value)}
+                            className={inputClass}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Temat pracy (w języku angielskim)
+                        </label>
+                        <input
+                            type="text"
+                            disabled={!isEditable}
+                            placeholder="np. Thesis Topic Selection Management System"
+                            value={titleEn}
+                            onChange={(e) => setTitleEn(e.target.value)}
+                            className={inputClass}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Cel i zakres pracy (założenia wejściowe)
+                        </label>
+                        <textarea
+                            rows={5}
+                            disabled={!isEditable}
+                            value={scope}
+                            onChange={(e) => setScope(e.target.value)}
+                            className={`${inputClass} leading-relaxed`}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Słowa kluczowe
+                        </label>
+                        <input
+                            type="text"
+                            disabled={!isEditable}
+                            placeholder="np. aplikacja webowa, React, Spring Boot, baza danych"
+                            value={keywords}
+                            onChange={(e) => setKeywords(e.target.value)}
+                            className={inputClass}
+                        />
+                    </div>
                 </div>
 
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
-                        Temat pracy (w języku angielskim):
-                    </label>
-                    <input
-                        type="text"
-                        disabled={!isEditable}
-                        placeholder="np. Thesis Topic Selection Management System"
-                        value={titleEn}
-                        onChange={(e) => setTitleEn(e.target.value)}
-                        style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
-                        required
-                    />
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
-                        Cel i zakres pracy (założenia wejściowe):
-                    </label>
-                    <textarea
-                        rows={5}
-                        disabled={!isEditable}
-                        value={scope}
-                        onChange={(e) => setScope(e.target.value)}
-                        style={{ width: "100%", padding: "10px", boxSizing: "border-box", lineHeight: "1.5" }}
-                        required
-                    />
-                </div>
-
-                <div style={{ marginBottom: "25px" }}>
-                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
-                        Słowa kluczowe:
-                    </label>
-                    <input
-                        type="text"
-                        disabled={!isEditable}
-                        placeholder="np. aplikacja webowa, React, Spring Boot, baza danych"
-                        value={keywords}
-                        onChange={(e) => setKeywords(e.target.value)}
-                        style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
-                    />
-                </div>
-
-                {/* Sekcja podpisów widoczna po zatwierdzeniu */}
+                {/* Podpis elektroniczny po zatwierdzeniu */}
                 {status === "approved" && (
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            marginTop: "40px",
-                            paddingTop: "20px",
-                            borderTop: "1px dashed #aaa",
-                            fontSize: "13px",
-                            color: "#555",
-                        }}
-                    >
+                    <div className="pt-6 mt-6 border-t border-dashed border-slate-300 flex justify-between text-xs text-slate-600">
                         <div>
-                            <p style={{ margin: 0 }}>Zatwierdzono elektronicznie w systemie:</p>
-                            <strong>
+                            <p>Zatwierdzono elektronicznie w systemie:</p>
+                            <p className="font-bold text-slate-900 mt-0.5">
                                 {promoter.degree} {promoter.name}
-                            </strong>
+                            </p>
                         </div>
-                        <div style={{ textAlign: "right" }}>
-                            <p style={{ margin: 0 }}>Data wygenerowania:</p>
-                            <strong>{new Date().toLocaleDateString("pl-PL")}</strong>
+                        <div className="text-right">
+                            <p>Data wygenerowania:</p>
+                            <p className="font-bold text-slate-900 mt-0.5">
+                                {new Date().toLocaleDateString("pl-PL")}
+                            </p>
                         </div>
                     </div>
                 )}
 
-                {/* Przyciski akcji dla wersji roboczej */}
                 {isEditable && (
-                    <div className="no-print" style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}>
+                    <div className="print:hidden flex justify-end pt-2">
                         <button
                             type="submit"
-                            style={{
-                                padding: "10px 20px",
-                                backgroundColor: "#0056b3",
-                                color: "#fff",
-                                border: "none",
-                                borderRadius: "5px",
-                                cursor: "pointer",
-                                fontWeight: "bold",
-                            }}
+                            className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold cursor-pointer"
                         >
                             📤 Prześlij kartę do zatwierdzenia przez promotora
                         </button>

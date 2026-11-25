@@ -3,57 +3,45 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 export default function Layout() {
     const location = useLocation();
 
-    return (
-        <div style={{ minHeight: "100vh", backgroundColor: "#fcfcfc" }}>
-            {/* Górny pasek systemowy / Przełącznik ról (DEV) */}
-            <header style={{ padding: "10px 20px", background: "#1e293b", color: "#fff" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "1100px", margin: "0 auto" }}>
-                    <span style={{ fontWeight: "bold", fontSize: "18px" }}>🎓 Promotor Finder (PolSl)</span>
+    const roleBtnClass = (isActive: boolean, activeColor: string) =>
+        `px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+            isActive ? `${activeColor} text-white shadow-sm` : "bg-slate-700/60 text-slate-300 hover:bg-slate-700 hover:text-white"
+        }`;
 
-                    <div style={{ display: "flex", gap: "10px", alignItems: "center", fontSize: "14px" }}>
-                        <span style={{ color: "#94a3b8" }}>Widok (Rola):</span>
-                        <Link
-                            to="/student"
-                            style={{
-                                padding: "4px 10px",
-                                borderRadius: "4px",
-                                background: location.pathname.startsWith("/student") ? "#3b82f6" : "#334155",
-                                color: "#fff",
-                                textDecoration: "none",
-                            }}
-                        >
+    return (
+        <div className="min-h-screen flex flex-col bg-slate-50">
+            <header className="bg-slate-900 text-white shadow-md">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+                    <Link to="/" className="flex items-center gap-2 font-bold text-lg tracking-tight">
+            <span className="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-base">
+              🎓
+            </span>
+                        <span>
+              Promotor<span className="text-blue-400">Finder</span>
+            </span>
+                        <span className="hidden sm:inline-block text-xs font-normal text-slate-400 border border-slate-700 rounded px-1.5 py-0.5 ml-1">
+              PolSl
+            </span>
+                    </Link>
+
+                    <div className="flex items-center gap-2">
+                        <span className="hidden md:inline text-xs text-slate-400 mr-1">Widok (DEV):</span>
+                        <Link to="/student" className={roleBtnClass(location.pathname.startsWith("/student"), "bg-blue-600")}>
                             Student
                         </Link>
-                        <Link
-                            to="/promotor"
-                            style={{
-                                padding: "4px 10px",
-                                borderRadius: "4px",
-                                background: location.pathname.startsWith("/promotor") ? "#10b981" : "#334155",
-                                color: "#fff",
-                                textDecoration: "none",
-                            }}
-                        >
+                        <Link to="/promotor" className={roleBtnClass(location.pathname.startsWith("/promotor"), "bg-emerald-600")}>
                             Promotor
                         </Link>
-                        <Link
-                            to="/admin"
-                            style={{
-                                padding: "4px 10px",
-                                borderRadius: "4px",
-                                background: location.pathname.startsWith("/admin") ? "#ef4444" : "#334155",
-                                color: "#fff",
-                                textDecoration: "none",
-                            }}
-                        >
+                        <Link to="/admin" className={roleBtnClass(location.pathname.startsWith("/admin"), "bg-rose-600")}>
                             Admin
                         </Link>
                     </div>
                 </div>
             </header>
 
-            {/* Miejsce na załadowanie StudentLayout, PromotorLayout lub AdminLayout */}
-            <Outlet />
+            <div className="flex-1">
+                <Outlet />
+            </div>
         </div>
     );
 }
