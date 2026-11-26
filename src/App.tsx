@@ -11,6 +11,10 @@ import PromotorTopics from "./features/promotor/PromotorTopics";
 import PromotorRequests from "./features/promotor/PromotorRequests";
 import PromotorCards from "./features/promotor/PromotorCards";
 
+import AdminLayout from "./features/admin/AdminLayout";
+import AdminStages from "./features/admin/AdminStages";
+import AdminAllocation from "./features/admin/AdminAllocation";
+
 export default function App() {
     return (
         <BrowserRouter>
@@ -33,8 +37,12 @@ export default function App() {
                         <Route path="cards" element={<PromotorCards />} />
                     </Route>
 
-                    {/* Ścieżka Admina */}
-                    <Route path="admin" element={<div className="max-w-6xl mx-auto p-6 text-slate-500">Panel Administratora (w budowie)</div>} />
+                    {/* Ścieżki i układ Admina */}
+                    <Route path="admin" element={<AdminLayout />}>
+                        <Route index element={<AdminStages />} />
+                        <Route path="users" element={<div className="text-slate-500">Użytkownicy i limity (w budowie)</div>} />
+                        <Route path="allocation" element={<AdminAllocation />} />
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>
