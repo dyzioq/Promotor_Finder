@@ -5,7 +5,11 @@ import StudentPanel from "./features/student/StudentPanel";
 import PromoterTopics from "./features/student/PromoterTopics";
 import StudentGroup from "./features/student/StudentGroup";
 import StudentApplicationCard from "./features/student/StudentApplicationCard";
+
 import PromotorLayout from "./features/promotor/PromotorLayout";
+import PromotorTopics from "./features/promotor/PromotorTopics";
+import PromotorRequests from "./features/promotor/PromotorRequests";
+import PromotorCards from "./features/promotor/PromotorCards";
 
 export default function App() {
     return (
@@ -24,13 +28,13 @@ export default function App() {
 
                     {/* Ścieżki i układ Promotora */}
                     <Route path="promotor" element={<PromotorLayout />}>
-                        <Route index element={<div style={{ padding: "20px" }}>Panel Promotora – Zarządzanie tematami (w budowie)</div>} />
-                        <Route path="requests" element={<div style={{ padding: "20px" }}>Prośby od studentów (w budowie)</div>} />
-                        <Route path="cards" element={<div style={{ padding: "20px" }}>Karty zgłoszeń do zatwierdzenia (w budowie)</div>} />
+                        <Route index element={<PromotorTopics />} />
+                        <Route path="requests" element={<PromotorRequests />} />
+                        <Route path="cards" element={<PromotorCards />} />
                     </Route>
 
                     {/* Ścieżka Admina */}
-                    <Route path="admin" element={<div style={{ padding: "20px" }}>Panel Administratora (w budowie)</div>} />
+                    <Route path="admin" element={<div className="max-w-6xl mx-auto p-6 text-slate-500">Panel Administratora (w budowie)</div>} />
                 </Route>
             </Routes>
         </BrowserRouter>
